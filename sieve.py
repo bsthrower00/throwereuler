@@ -1,27 +1,19 @@
-def sieve_of_eratosthenes(n):
-    primes = [True] * (n + 1)
-    primes[0] = primes[1] = False
+#sieve
+def sieve(n):
+    arr = [True]*n
+    for i in range(2,int(n**.5)+1):
+        if arr[i] is True:
+            for j in range(i**2,n,i):
+                arr[j] = False
     
-    p = 2
-    while p * p <= n:
-        if primes[p]:
-            for i in range(p * p, n + 1, p):
-                primes[i] = False
-        p += 1
+    return arr
+
+a = sieve(699_000_000)
+primeList = []
+for i in range(len(a)):
+    if a[i] is True:
+        primeList.append(i)
+with open('primes699.txt','w+') as f:
     
-    return [i for i in range(2, n + 1) if primes[i]]
-
-def export_primes_to_file(primes, filename):
-    with open(filename, 'w') as file:
-        for prime in primes:
-            file.write(str(prime) + '\n')
-
-def main():
-    n = int(input("Enter the value of n: "))
-    primes = sieve_of_eratosthenes(n)
-    filename = input("Enter the filename to save the primes to (e.g., primes.txt): ")
-    export_primes_to_file(primes, filename)
-    print(f"Prime numbers up to {n} have been saved to {filename}")
-
-if __name__ == "__main__":
-    main()
+        f.write(str(primeList))
+print('done')
